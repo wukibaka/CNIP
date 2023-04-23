@@ -9,6 +9,12 @@ jobs:
   auto_update:
     runs-on: ubuntu-latest
     steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@v3
+
+      - name: 'Delete old files'
+        run: rm -rf *.txt
+
       - name: 'Download cidr merger'
         run: |
           wget https://github.com/zhanhb/cidr-merger/releases/download/$(curl -Ls "https://api.github.com/repos/zhanhb/cidr-merger/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')/cidr-merger-linux-amd64 -O cidr-merger
@@ -21,7 +27,7 @@ jobs:
           wget https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt -O IPIPCNIP.txt
 
       - name: 'Merger CNIP'
-        run: ./cidr-merger -ko CNIP.txt china-operator-ip.txt ClangCNIP.txt IPIPCNIP.txt
+        run: ./cidr-merger -o CNIP.txt china-operator-ip.txt ClangCNIP.txt IPIPCNIP.txt
 
       - name: 'Commit Files'
         id: commit
