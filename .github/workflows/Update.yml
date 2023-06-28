@@ -25,9 +25,10 @@ jobs:
           wget https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china.txt -O china-operator-ip.txt
           wget https://ispip.clang.cn/all_cn_cidr.txt -O ClangCNIP.txt
           wget https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt -O IPIPCNIP.txt
+          wget https://raw.githubusercontent.com/Hackl0us/GeoIP2-CN/release/CN-ip-cidr.txt -O GeoIP2-CN.txt
 
       - name: 'Merger CNIP'
-        run: ./cidr-merger -o CNIP.txt china-operator-ip.txt ClangCNIP.txt IPIPCNIP.txt
+        run: ./cidr-merger -o CNIP.txt china-operator-ip.txt ClangCNIP.txt IPIPCNIP.txt GeoIP2-CN.txt
 
       - name: 'Commit Files'
         id: commit
