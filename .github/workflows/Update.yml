@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout codes'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 'Delete old files'
         run: rm -rf *.txt
@@ -22,13 +22,14 @@ jobs:
 
       - name: 'Download CNIP'
         run: |
+          wget https://raw.githubusercontent.com/1715173329/IPCIDR-CHINA/master/ipv4.txt -O IPCIDR-CHINA.txt
           wget https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china.txt -O china-operator-ip.txt
           wget https://ispip.clang.cn/all_cn_cidr.txt -O ClangCNIP.txt
           wget https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt -O IPIPCNIP.txt
           wget https://raw.githubusercontent.com/Hackl0us/GeoIP2-CN/release/CN-ip-cidr.txt -O GeoIP2-CN.txt
 
       - name: 'Merger CNIP'
-        run: ./cidr-merger -o CNIP.txt china-operator-ip.txt ClangCNIP.txt IPIPCNIP.txt GeoIP2-CN.txt
+        run: ./cidr-merger -o CNIP.txt IPCIDR-CHINA.txt china-operator-ip.txt ClangCNIP.txt IPIPCNIP.txt GeoIP2-CN.txt
 
       - name: 'Commit Files'
         id: commit
@@ -41,7 +42,7 @@ jobs:
 
       - name: 'GitHub Push'
         if: steps.commit.output.status != 'success'
-        uses: ad-m/github-push-action@v0.6.0
+        uses: ad-m/github-push-action@master
         with:
           force: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
