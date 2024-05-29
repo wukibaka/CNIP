@@ -38,10 +38,8 @@ jobs:
           git config --local user.name "GitHub Action"
           git add "*.txt"
           git commit -m '定时更新'
-          echo ::set-output name=status::success
 
       - name: 'GitHub Push'
-        if: steps.commit.outputs.status == 'success'
         uses: ad-m/github-push-action@master
         with:
           force: true
