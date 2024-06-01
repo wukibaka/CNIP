@@ -9,12 +9,6 @@ jobs:
   auto_update:
     runs-on: ubuntu-latest
     steps:
-      - name: 'Checkout codes'
-        uses: actions/checkout@v4
-
-      - name: 'Delete old files'
-        run: rm -rf *.txt
-
       - name: 'Download cidr merger'
         run: |
           wget https://github.com/zhanhb/cidr-merger/releases/download/$(curl -Ls "https://api.github.com/repos/zhanhb/cidr-merger/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')/cidr-merger-linux-amd64 -O cidr-merger
