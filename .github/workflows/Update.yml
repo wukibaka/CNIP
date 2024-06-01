@@ -9,6 +9,12 @@ jobs:
   auto_update:
     runs-on: ubuntu-latest
     steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@v4
+
+      - name: 'Delete old files'
+        run: rm -rf *.txt
+
       - name: 'Download cidr merger'
         run: |
           wget https://github.com/zhanhb/cidr-merger/releases/download/$(curl -Ls "https://api.github.com/repos/zhanhb/cidr-merger/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')/cidr-merger-linux-amd64 -O cidr-merger
@@ -28,8 +34,8 @@ jobs:
       - name: 'Commit Files'
         id: commit
         run: |
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git add "*.txt"
           git commit -m '定时更新'
 
